@@ -116,10 +116,9 @@ func getSelectedStringByPressingCopyShortcut() async -> String? {
     try? await Task.sleep(nanoseconds: NSEC_PER_SEC / 3)
     
     let newItems = readFromPasteboard()
-    guard let newItem = newItems.first?.string(forType: .string)
-    // TODO: new item should be different than the previous
+    guard let newItem = newItems.first?.string(forType: .string),
+          !savedItems.contains(where: { $0.string(forType: .string) == newItem })
     else { return nil }
-    
     
     try? await Task.sleep(nanoseconds: NSEC_PER_SEC / 3)
     // restore Clipboard
@@ -128,5 +127,4 @@ func getSelectedStringByPressingCopyShortcut() async -> String? {
         
     return newItem
 }
-
 #endif
